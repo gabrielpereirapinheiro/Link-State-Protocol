@@ -8,8 +8,8 @@ int main()
 	adj *ponteiro_aux = NULL;
 
 	grafo = cria_grafo();
-
-	adiciona_no(grafo,0);
+	GeraGrafoNFSNET(grafo);
+	/*adiciona_no(grafo,0);
 
 	adiciona_no(grafo,1);
 
@@ -57,7 +57,7 @@ int main()
 
 	adiciona_vizinho(grafo,4,11,6);
 
-	adiciona_vizinho(grafo,5,12,6);
+	adiciona_vizinho(grafo,5,12,6);*/
 	//manda_msg(grafo,2);
 	//manda_msg(grafo,3);
 
@@ -97,12 +97,21 @@ int main()
 	GeraMatrizAdjacencias(grafo);
 
 	ponteiro = grafo->cabeca;
-
+	ponteiro = ponteiro->proximo;
 	for(int i = 0; i < grafo->V; i++){
 		for(int j = 0; j < grafo->V; j++){
 			printf("matriz[%d][%d] = %d\n", i, j, ponteiro->matrizAdjacencias[i][j]);
 		}
 	}
+
+	dijkstra(grafo->V, 0, 12, ponteiro->matrizAdjacencias);
+
+	printf("\n");
+	for(int i = 0; i < grafo->V; i++){
+		printf("distancia[%d] = %d\n", i, dist[i]);
+	}
+
+	printf("\n%d\n", grafo->V);
 
 	LiberaGrafo(grafo);
 

@@ -2,7 +2,11 @@
 #include <stdlib.h>
 #include <limits.h>
 
-#define INF INT_MAX
+#define INF INT_MAX - 10000000
+
+int fixo[10000];
+int dist[10000];
+int save[2];
 
 typedef struct table
 {
@@ -41,6 +45,8 @@ typedef struct grafo
 
 Grafo * cria_grafo();
 
+void GeraGrafoNFSNET(Grafo *G);
+
 void adiciona_no(Grafo *ptr,int ID);
 
 void adiciona_vizinho(Grafo *ptr,int vizinho,int cost,int from);
@@ -67,8 +73,10 @@ void lsa_min(Grafo *ptr,int no);
 
 void lsa_max(Grafo *ptr);
 
-void dijkstra(int n,int node,int toNode);
-
 void GeraMatrizAdjacencias(Grafo *g);
 
 void LiberaGrafo(Grafo *G);
+
+void dijkstra(int n, int node,int toNode, int **matrizAdjacencias);
+
+void reverte_visitado(Grafo *ptr);

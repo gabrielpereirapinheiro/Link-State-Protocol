@@ -267,14 +267,14 @@ void envia_msg(Grafo *ptr, int no,int from,int link_1,int link_2,int cost,int se
 		*/
 		if (var_bool==0) /*caso nao tenha ainda o dado na tabela desse no*/
 		{
-			printf("Ira adicionar table em %d \n",novo_no );
+			//printf("Ira adicionar table em %d \n",novo_no );
 			
 			adiciona_table(ptr,novo_no,no,link_1,link_2,cost,seq,age);
 
 		}
 		else /*Caso nao for vizinho , nao faz nada*/
 		{
-			printf("Repetido !! Em %d ja tem %d com %d \n",novo_no,link_1,link_2);
+			//printf("Repetido !! Em %d ja tem %d com %d \n",novo_no,link_1,link_2);
 		}
 		ponteiro_adj = ponteiro_adj -> proximo;
 	}
@@ -308,7 +308,7 @@ void manda_msg(Grafo *ptr,int no)
 
 		age = 0;
 
-		printf("**VAI ENVIAR PARA OS VIZINHOS DE %d que %d ate %d custa %d\n",no,link_1,link_2,cost );
+		//printf("**VAI ENVIAR PARA OS VIZINHOS DE %d que %d ate %d custa %d\n",no,link_1,link_2,cost );
 
 		envia_msg(ptr,no,from,link_1,link_2,cost,seq,age);
 
@@ -355,6 +355,13 @@ void flooding(Grafo *ptr,int no,int from,int link_1,int link_2, int cost , int s
 		//printf(" ** Adiciona no vetor %d em %d\n",vetor[i-1],i-1 );
 		ponteiro_adj= ponteiro_adj->proximo;
 	}
+	printf("%d --- \n",no );
+	for (int i = 0; i < 17; ++i)
+	{
+
+		printf(" ****** %d \n",vetor[i] );
+	}
+	printf("\n\n\n\n\n");
 
 	int last = i;
 
@@ -404,6 +411,8 @@ void flooding(Grafo *ptr,int no,int from,int link_1,int link_2, int cost , int s
 		i++;
 	}	
 
+	reverte_visitado(ptr);
+
 	free(vetor);
 }
 
@@ -439,7 +448,22 @@ void muda_visitado(Grafo *ptr,int no)
 
 	ponteiro-> flag_visitado = 1;
 
-	printf(" visitado %d e a flag e %d \n",ponteiro->id,ponteiro->flag_visitado );
+	//printf(" visitado %d e a flag e %d \n",ponteiro->id,ponteiro->flag_visitado );
+
+}
+
+void reverte_visitado(Grafo *ptr)
+{
+	No *ponteiro = NULL;
+
+	ponteiro = ptr -> cabeca;
+
+	while (ponteiro!=NULL)
+	{
+		ponteiro->flag_visitado = -1;
+
+		ponteiro = ponteiro->proximo;
+	}
 
 }
 /*Funcao status_vistado
@@ -586,7 +610,220 @@ void GeraMatrizAdjacencias(Grafo *G){
 				vertPtr->matrizAdjacencias[tabPtr->link[0]][tabPtr->link[1]] = tabPtr->cost;
 			}
 		}
-	}
+	}	
+}
+
+/*Funcao que vai criar a topologia da NFSNET*/
+void GeraGrafoNFSNET(Grafo *G){
+
+	adiciona_no(G,0); //WA
+
+	adiciona_no(G,1); //CA1
+
+	adiciona_no(G,2); //CA2
 	
+	adiciona_no(G,3); //IL
+
+	adiciona_no(G,4); //UT
+
+	adiciona_no(G,5);  //TX
+
+	adiciona_no(G,6); //NE
+
+	adiciona_no(G,7); //PA
+
+	adiciona_no(G,8); //MI
+
+	adiciona_no(G,9); //CO
+	
+	adiciona_no(G,10); //GA
+
+	adiciona_no(G,11); //DC
+
+	adiciona_no(G,12); //NY
+
+	adiciona_no(G,13); //NJ
+
+	//Vizinhos de 0
+	adiciona_vizinho(G,1,3,0);
+
+	adiciona_vizinho(G,2,5,0);
+
+	adiciona_vizinho(G,3,1,0);
+
+
+	//vizinhos de 1
+
+	adiciona_vizinho(G,0,3,1);
+
+	adiciona_vizinho(G,2,2,1);
+
+	adiciona_vizinho(G,4,4,1);
+
+
+	//Vizinhos de 2
+
+
+	adiciona_vizinho(G,0,5,2);
+
+	adiciona_vizinho(G,1,2,2);
+
+	adiciona_vizinho(G,5,1,2);
+
+
+	// Vizinhos de 3
+
+
+
+	adiciona_vizinho(G,0,1,3);
+
+	adiciona_vizinho(G,6,2,3);
+
+	adiciona_vizinho(G,7,4,3);
+
+
+	// Vizinhos 4
+
+
+	adiciona_vizinho(G,1,4,4);
+
+	adiciona_vizinho(G,11,5,4);
+	//Vizinhos 5
+	adiciona_vizinho(G,2,1,5);
+
+	adiciona_vizinho(G,8,5,5);
+
+
+	adiciona_vizinho(G,9,10,5);
+
+
+	adiciona_vizinho(G,10,15,5);
+
+	//vizinhos 6
+
+
+	adiciona_vizinho(G,3,2,6);
+
+	adiciona_vizinho(G,8,3,6);
+
+	// vizinhos 7
+
+
+	adiciona_vizinho(G,3,4,7);
+
+	adiciona_vizinho(G,12,1,7);
+
+	adiciona_vizinho(G,13,2,7);
+
+
+	adiciona_vizinho(G,9,6,7);
+	//vizinhos 8
+
+
+	adiciona_vizinho(G,5,5,8);
+
+	adiciona_vizinho(G,6,3,8);
+
+	// vizinhos 9
+	adiciona_vizinho(G,5,10,9);
+
+
+	adiciona_vizinho(G,7,6,9);
+
+	// vizinhos 10
+
+
+	adiciona_vizinho(G,5,15,10);
+
+	adiciona_vizinho(G,12,2,10);
+	adiciona_vizinho(G,13,3,10);
+
+
+	// vizinhos 11
+
+
+	adiciona_vizinho(G,4,5,11);
+
+	adiciona_vizinho(G,12,1,11);
+
+
+	adiciona_vizinho(G,13,2,11);
+
+	//vizinhos 12
+
+
+	adiciona_vizinho(G,7,1,12);
+
+	adiciona_vizinho(G,10,2,12);
+
+	adiciona_vizinho(G,11,1,12);
+
+	// vizinhos 13
+
+
+	adiciona_vizinho(G,7,2,13);
+
+	adiciona_vizinho(G,10,3,13);
+
+
+	adiciona_vizinho(G,11,2,13);
+
+
+
+
+}
+
+void dijkstra(int n, int node,int toNode, int **matrizAdjacencias)
+{
+	int cycles;
+
+	for (int i = 0; i <  n; ++i)/*ALl distances will be iguality to INFINITY and all fixos to know what 
+	you stay will be 0*/
+	{
+		fixo[i]=0;
+		dist[i]=INF;
+	}
+
+	dist[node]=0; /*Define what node will be the reference*/
+
+	/*Executed n times ( n = number of nodes )*/
+	for(cycles = n ; cycles > 0 ; cycles -- )
+	{
+		int no = -1;
+
+		for (int i = 0; i < n; ++i) 
+		{
+			if(!fixo[i] && (no==-1 || dist[i] < dist[no]))
+			{
+				//printf("!fixo[%d]= %d && %d = -1 || dist[%d]= %d < dis[%d] = %d  \n", i,fixo[i],no,i,dist[i],no,dist[no] );
+				no=i;	
+			}
+		}
+	
+		fixo[no] = 1;
+
+		if(dist[no] == INF)
+		{	
+			/*If the distance is infinity, go out loop*/
+			break;
+		}
+	
+		for (int i = 0; i < n; ++i)
+		{
+			if(matrizAdjacencias[no][i] && dist[i] > dist[no] + matrizAdjacencias[no][i])
+			{	
+				/*If the distance to this node is bigger than that some, change the value and save*/
+				dist[i] = dist[no] + matrizAdjacencias[no][i];
+				
+				if(i==toNode)
+				{
+						
+						save[0]=no;
+						save[1]=i;
+						
+				}
+			}
+		}
+	}
 }
 
