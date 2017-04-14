@@ -7,12 +7,16 @@
 * PROFESSOR: JACIR BORDIM
 *
 */
+
+
 #include "biblioteca.h"
 
-/*Funcao Cria_grafo
+/*
+* Funcao Cria_grafo
 * Funcao que ira criar a Grafo e cria uma
 * struct no e aponta para ela.
 */
+
 Grafo * cria_grafo()
 {
 	No *novo_no = NULL;
@@ -229,7 +233,7 @@ void ve_table(Grafo *ptr,int no)
 
 	while(ponteiro_table!=NULL)
 	{
-		printf("\nFROM -> %d\n LINK -> %d \n LINK -> %d \n COST -> %d\n",ponteiro_table->from,ponteiro_table->link[0],ponteiro_table->link[1],ponteiro_table->cost);
+		printf("\n FROM -> %d\n LINK -> %d \n LINK -> %d \n COST -> %d\n",ponteiro_table->from,ponteiro_table->link[0],ponteiro_table->link[1],ponteiro_table->cost);
 		ponteiro_table = ponteiro_table-> proximo;
 	}
 }
@@ -350,19 +354,11 @@ void flooding(Grafo *ptr,int no,int from,int link_1,int link_2, int cost , int s
 	while(ponteiro_adj!=NULL)
 	{
 		vetor[i]= ponteiro_adj->id_adj;
-
 		i++;
 		//printf(" ** Adiciona no vetor %d em %d\n",vetor[i-1],i-1 );
 		ponteiro_adj= ponteiro_adj->proximo;
 	}
-	printf("%d --- \n",no );
-	for (int i = 0; i < 17; ++i)
-	{
-
-		printf(" ****** %d \n",vetor[i] );
-	}
-	printf("\n\n\n\n\n");
-
+	
 	int last = i;
 
 	i=0;
@@ -748,4 +744,22 @@ void dijkstra(int n, int node, int **matrizAdjacencias)
 		}
 	}
 }
+/*
+* Funcao mostra_Tables e para mostrar as tabelas de todos os nos
+* comecando do primeiro que foi inserido na lista de nos ate o ultimo.
+*/
+void mostra_tables(Grafo *ptr)
+{
 
+	No *ponteiro = NULL;
+
+	ponteiro = ptr -> cabeca ;
+
+	while(ponteiro != NULL)
+	{
+
+		printf("\n***** TABLES DO NO %d *******\n",ponteiro->id );
+		ve_table(ptr,ponteiro->id);
+		ponteiro = ponteiro -> proximo;
+	}
+}

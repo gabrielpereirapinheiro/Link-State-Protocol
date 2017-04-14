@@ -78,3 +78,5 @@ void LiberaGrafo(Grafo *G);
 void dijkstra(int n, int node, int **matrizAdjacencias);
 
 void reverte_visitado(Grafo *ptr);
+
+void mostra_tables(Grafo *ptr);
