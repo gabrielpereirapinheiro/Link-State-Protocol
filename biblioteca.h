@@ -1,3 +1,13 @@
+/*TRABALHO DE TELEINFORMATICA E REDES 2
+*
+* ALUNO : GABRIEL PEREIRA PINHEIRO - 14/0020764
+* ALUNO : VICTOR ARAUJO VIEIRA - 14/0032801
+* UNIVERSIDADE DE BRASILIA
+* DEPARTAMENTO DE CIENCIA DA COMPUTACAO
+* PROFESSOR: JACIR BORDIM
+*
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <limits.h>
@@ -80,3 +90,5 @@ void dijkstra(int n, int node, int **matrizAdjacencias);
 void reverte_visitado(Grafo *ptr);
 
 void mostra_tables(Grafo *ptr);
+
+int retorna_seq(Grafo *ptr,int no,int link_1,int link_2);

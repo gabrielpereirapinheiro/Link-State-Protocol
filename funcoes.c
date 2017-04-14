@@ -184,6 +184,7 @@ void adiciona_table(Grafo *ptr,int no ,int from, int link_1,int link_2,int cost,
 
 		ponteiro_aux_table-> link[1] = link_2;
 
+		ponteiro_aux_table-> seq = seq;
 
 		ponteiro_aux_table-> cost = cost;
 
@@ -212,6 +213,7 @@ void adiciona_table(Grafo *ptr,int no ,int from, int link_1,int link_2,int cost,
 
 			ponteiro_aux_table-> link[1] = link_2;
 
+			ponteiro_aux_table-> seq = seq;
 
 			ponteiro_aux_table-> cost = cost;
 
@@ -249,6 +251,7 @@ void envia_msg(Grafo *ptr, int no,int from,int link_1,int link_2,int cost,int se
 	adj *ponteiro_aux = NULL;
 	int novo_no;
 	int var_bool;
+	int seq_compara;
 
 	ponteiro = retorna_ponteiro_no(ptr,no);
 
@@ -276,9 +279,15 @@ void envia_msg(Grafo *ptr, int no,int from,int link_1,int link_2,int cost,int se
 			adiciona_table(ptr,novo_no,no,link_1,link_2,cost,seq,age);
 
 		}
-		else /*Caso nao for vizinho , nao faz nada*/
+		else /*Caso ja esteja na tabela, confere o seq .*/
 		{
-			//printf("Repetido !! Em %d ja tem %d com %d \n",novo_no,link_1,link_2);
+			seq_compara= retorna_seq(ptr,novo_no,link_1,link_2);
+
+			if( seq_compara > seq  )
+			{
+				//atualiza_table(grafo,novo_no,link_1,link_2,age);
+			}
+
 		}
 		ponteiro_adj = ponteiro_adj -> proximo;
 	}
@@ -436,6 +445,35 @@ int confere_table(Grafo *ptr,int no,int link_1,int link_2)
 	return var_bool;
 }
 
+
+int retorna_seq(Grafo *ptr,int no,int link_1,int link_2)
+{
+	int var_seq=-1;
+	No *ponteiro = NULL;
+	table *ponteiro_table = NULL;
+
+	ponteiro = retorna_ponteiro_no(ptr,no);
+
+	ponteiro_table= ponteiro->proximo_table;
+
+	while(ponteiro_table!=NULL)
+	{
+		if(ponteiro_table->link[0] == link_1 && ponteiro_table->link[1]==link_2)
+		{
+			var_seq = ponteiro_table->seq;
+			break;
+		}
+
+		ponteiro_table = ponteiro_table->proximo;
+	}
+
+
+	return var_seq;
+}
+
+
+
+
 void muda_visitado(Grafo *ptr,int no)
 {
 	No *ponteiro = NULL;
@@ -485,7 +523,7 @@ void lsa_min(Grafo *ptr,int no)
 	No *ponteiro = NULL;
 	adj *ponteiro_adj = NULL;
 
-	int from,cost,link_1,link_2,age,seq;
+	int from,cost,link_1,link_2,age,seq=1;
 
 	ponteiro =  ptr->cabeca;
 
@@ -513,7 +551,7 @@ void lsa_max(Grafo *ptr)
 	/*
 	* Por DEFAULT colocaremos o inicial do LSA 
 	* como o primeiro nó do grafo, isto é, o no
-	* 1.
+	* 0.
 	*
 	*/
 
@@ -744,9 +782,11 @@ void dijkstra(int n, int node, int **matrizAdjacencias)
 		}
 	}
 }
+
 /*
 * Funcao mostra_Tables e para mostrar as tabelas de todos os nos
 * comecando do primeiro que foi inserido na lista de nos ate o ultimo.
+*
 */
 void mostra_tables(Grafo *ptr)
 {
@@ -755,9 +795,9 @@ void mostra_tables(Grafo *ptr)
 
 	ponteiro = ptr -> cabeca ;
 
+	/*Laco para pecorrer toda a lista de nos*/
 	while(ponteiro != NULL)
 	{
-
 		printf("\n***** TABLES DO NO %d *******\n",ponteiro->id );
 		ve_table(ptr,ponteiro->id);
 		ponteiro = ponteiro -> proximo;
