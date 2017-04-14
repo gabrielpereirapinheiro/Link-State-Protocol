@@ -26,6 +26,7 @@ typedef struct no
 {
 	int id;
 	int flag_visitado;
+	int **matrizAdjacencias;
 	struct no *proximo;
 	adj *proximo_adj;
 	table *proximo_table;
@@ -68,8 +69,6 @@ void lsa_max(Grafo *ptr);
 
 void dijkstra(int n,int node,int toNode);
 
-int **GeraMatrizAdjacencias(Grafo *g, int **matrizAdjacencias);
-
-void LiberaMatriz(int **matrizAdjacencias);
+void GeraMatrizAdjacencias(Grafo *g);
 
 void LiberaGrafo(Grafo *G);

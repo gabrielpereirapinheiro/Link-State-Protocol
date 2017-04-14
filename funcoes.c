@@ -326,9 +326,15 @@ void flooding(Grafo *ptr,int no,int from,int link_1,int link_2, int cost , int s
 	adj *ponteiro_aux_adj = NULL;
 
 	int i;
-	int numero_max = 10;
-	int vetor[numero_max];/*Proxima rota*/
-	int valor = 0, adiciona = 0;;
+	int numero_max = ptr->V;
+	int *vetor = NULL;/*Proxima rota*/
+	int valor = 0, adiciona = 0;
+
+	vetor = (int*)malloc((ptr->V)*sizeof(int));
+	if(vetor == NULL){
+		printf("Nao foi possivel alocar o vetor que determina o caminho do lsa!\n");
+		exit(1);
+	}
 
 	for (i = 0; i < numero_max ; ++i)
 	{
@@ -397,6 +403,8 @@ void flooding(Grafo *ptr,int no,int from,int link_1,int link_2, int cost , int s
 
 		i++;
 	}	
+
+	free(vetor);
 }
 
 int confere_table(Grafo *ptr,int no,int link_1,int link_2)
@@ -489,7 +497,7 @@ void lsa_max(Grafo *ptr)
 	*
 	*/
 
-	ponteiro = retorna_ponteiro_no(ptr,1);
+	ponteiro = retorna_ponteiro_no(ptr,0);
 
 	while(ponteiro!=NULL && ponteiro->id !=-1)
 	{
@@ -499,10 +507,10 @@ void lsa_max(Grafo *ptr)
 }
 
 void LiberaGrafo(Grafo *G){
-
 	No *verticePtr = NULL, *vertPtrAux = NULL; // ponteiro para vertices
 	adj *adjPtr = NULL, *adjPtrAux = NULL; // ponteiro para adjacentes
 	table *tablePtr = NULL, *tablePtrAux = NULL; // ponteiro para a tabela de banco de dados
+	int i = 0;
 
 	if(G){
 		if(G->cabeca){
@@ -528,6 +536,12 @@ void LiberaGrafo(Grafo *G){
 						tablePtr = tablePtrAux;
 					}
 				}
+				if(verticePtr->matrizAdjacencias){
+					for(i = 0; i < G->V; i++){
+						free(verticePtr->matrizAdjacencias[i]);
+					}
+					free(verticePtr->matrizAdjacencias);
+				}
 				//agora vai liberar o no de fato
 				vertPtrAux = verticePtr->proximo;
 				free(verticePtr);
@@ -538,24 +552,41 @@ void LiberaGrafo(Grafo *G){
 	}
 }
 
-/*Funcao que vai gerar a matri de adjacencias a partir das tabelas do banco de dados de cada vertice*/
-int **GeraMatrizAdjacencias(Grafo *G, int **matrizAdjacencias){
+/*Funcao que vai gerar a matriz de adjacencias de cada vertice*/
+void GeraMatrizAdjacencias(Grafo *G){
 	No *vertPtr = NULL; //ponteiro que percorrera a lista de vertices do grafo
 	table *tabPtr = NULL; // ponteiro que percorrera a lista de tabelas do vertice
 	int i = 0, j = 0;
 
-	//parte que vai alocar a matriz de adjacencias
-	matrizAdjacencias = (int**)malloc((G->V)*sizeof(int*));
-	if(matrizAdjacencias == NULL){
-		printf("Nao foi possivel alocar a matriz de adjacencias!\n");
-		exit(1);
-	}
-	for(i = 0; i < G->V; i++){
-		matrizAdjacencias[i] = (int*)malloc((G->V)*sizeof(int));
-	}
+	//coloca na matriz todos os links que estao na tabela de cada um dos nos
+	for(vertPtr = G->cabeca; vertPtr != NULL; vertPtr = vertPtr->proximo){
+		//parte que vai alocar a matriz de adjacencias
+		vertPtr->matrizAdjacencias = (int**)malloc((G->V)*sizeof(int*));
+		if(vertPtr->matrizAdjacencias == NULL){
+			printf("Nao foi possivel alocar a matriz de adjacencias!\n");
+			exit(1);
+		}
+		for(i = 0; i < G->V; i++){
+			vertPtr->matrizAdjacencias[i] = (int*)malloc((G->V)*sizeof(int));
+		}
 
-	for(vertPtr = G->cabeca; vertPtr != NULL; vertPtr = vertPtr->proximo)
-
-	return matrizAdjacencias;
+		//inicia toda a matriz com infinitos (INT_MAX)
+		for(i = 0; i < G->V; i++){
+			for(j = 0; j < G->V; j++){
+				if(i == j){
+					vertPtr->matrizAdjacencias[i][j] = 0;
+				}else{
+					vertPtr->matrizAdjacencias[i][j] = INF;
+				}				
+			}
+		}
+		//parte que vai inserir os valores da tabela de fato na matriz
+		if(vertPtr->proximo_table){
+			for(tabPtr = vertPtr->proximo_table; tabPtr != NULL; tabPtr = tabPtr->proximo){
+				vertPtr->matrizAdjacencias[tabPtr->link[0]][tabPtr->link[1]] = tabPtr->cost;
+			}
+		}
+	}
+	
 }
 

@@ -1,24 +1,15 @@
 #include "biblioteca.h"
 
-void completa_com_valor(int G[][10], Grafo *ptr,int no)
-{
-	No *ponteiro = NULL;
-	table *ponteiro_aux = NULL;
-	
-	ponteiro = retorna_ponteiro_no(ptr,no)	;
-
-
-
-}
 
 int main()
 {
 	Grafo *grafo = NULL;
 	No *ponteiro = NULL;
 	adj *ponteiro_aux = NULL;
-	int **matrizAdjacencias;
 
 	grafo = cria_grafo();
+
+	adiciona_no(grafo,0);
 
 	adiciona_no(grafo,1);
 
@@ -31,6 +22,10 @@ int main()
 	adiciona_no(grafo,5);
 
 	adiciona_no(grafo,6);
+
+	adiciona_vizinho(grafo,1,15,0);
+
+	adiciona_vizinho(grafo,0,15,1);
 
 	adiciona_vizinho(grafo,2,1,1);
 
@@ -72,6 +67,10 @@ int main()
 	lsa_max(grafo);
 
 	//envia_msg(grafo,2,2,2,1,1,1,1);
+
+	printf("\n\n******NO 0******\n\n");
+	ve_table(grafo,0);
+
 	printf("\n\n******NO 1******\n\n");
 	ve_table(grafo,1);
 
@@ -95,9 +94,17 @@ int main()
 	printf("\n\n******NO 6******\n\n");
 	ve_table(grafo,6);
 
-	LiberaGrafo(grafo);
+	GeraMatrizAdjacencias(grafo);
 
-	//preenche_matriz(G);
+	ponteiro = grafo->cabeca;
+
+	for(int i = 0; i < grafo->V; i++){
+		for(int j = 0; j < grafo->V; j++){
+			printf("matriz[%d][%d] = %d\n", i, j, ponteiro->matrizAdjacencias[i][j]);
+		}
+	}
+
+	LiberaGrafo(grafo);
 
 	//completa_com_valor(G,grafo,1);
 
