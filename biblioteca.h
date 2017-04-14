@@ -92,3 +92,5 @@ void reverte_visitado(Grafo *ptr);
 void mostra_tables(Grafo *ptr);
 
 int retorna_seq(Grafo *ptr,int no,int link_1,int link_2);
+
+void atualiza_table(Grafo *ptr,int no,int link_1,int link_2,int seq,int cost);

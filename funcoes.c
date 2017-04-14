@@ -263,15 +263,6 @@ void envia_msg(Grafo *ptr, int no,int from,int link_1,int link_2,int cost,int se
 
 		var_bool = confere_table(ptr,novo_no,link_1,link_2);
 
-		/*
-
-		F A Z E R   A Q U I   A  F U N C A O   Q U E    C O M P A R A
-		O    M E N OR     S E Q  .
-
-
-
-
-		*/
 		if (var_bool==0) /*caso nao tenha ainda o dado na tabela desse no*/
 		{
 			//printf("Ira adicionar table em %d \n",novo_no );
@@ -285,7 +276,7 @@ void envia_msg(Grafo *ptr, int no,int from,int link_1,int link_2,int cost,int se
 
 			if( seq_compara > seq  )
 			{
-				//atualiza_table(grafo,novo_no,link_1,link_2,age);
+				atualiza_table(ptr,novo_no,link_1,link_2,age,cost);
 			}
 
 		}
@@ -471,8 +462,27 @@ int retorna_seq(Grafo *ptr,int no,int link_1,int link_2)
 	return var_seq;
 }
 
+void atualiza_table(Grafo *ptr,int no,int link_1,int link_2,int seq,int cost)
+{
+	No *ponteiro = NULL;
+	table *ponteiro_table = NULL;	
 
+	ponteiro = retorna_ponteiro_no(ptr,no);
 
+	ponteiro_table = ponteiro->proximo_table;
+
+	while(ponteiro_table)
+	{
+		if(ponteiro_table->link[0] == link_1 && ponteiro_table->link[1]==link_2)
+		{
+			ponteiro_table->cost = cost;
+			ponteiro_table->seq = seq;
+			break;
+		}
+
+		ponteiro_table = ponteiro_table->proximo;
+	}
+}
 
 void muda_visitado(Grafo *ptr,int no)
 {
