@@ -104,7 +104,7 @@ int main()
 		}
 	}
 
-	dijkstra(grafo->V, 0, 12, ponteiro->matrizAdjacencias);
+	dijkstra(grafo->V, 0, ponteiro->matrizAdjacencias);
 
 	printf("\n");
 	for(int i = 0; i < grafo->V; i++){

@@ -617,165 +617,94 @@ void GeraMatrizAdjacencias(Grafo *G){
 void GeraGrafoNFSNET(Grafo *G){
 
 	adiciona_no(G,0); //WA
-
 	adiciona_no(G,1); //CA1
-
 	adiciona_no(G,2); //CA2
-	
 	adiciona_no(G,3); //IL
-
 	adiciona_no(G,4); //UT
-
 	adiciona_no(G,5);  //TX
-
 	adiciona_no(G,6); //NE
-
 	adiciona_no(G,7); //PA
-
 	adiciona_no(G,8); //MI
-
 	adiciona_no(G,9); //CO
-	
 	adiciona_no(G,10); //GA
-
 	adiciona_no(G,11); //DC
-
 	adiciona_no(G,12); //NY
-
 	adiciona_no(G,13); //NJ
 
 	//Vizinhos de 0
 	adiciona_vizinho(G,1,3,0);
-
 	adiciona_vizinho(G,2,5,0);
-
 	adiciona_vizinho(G,3,1,0);
 
-
 	//vizinhos de 1
-
 	adiciona_vizinho(G,0,3,1);
-
 	adiciona_vizinho(G,2,2,1);
-
 	adiciona_vizinho(G,4,4,1);
 
-
 	//Vizinhos de 2
-
-
 	adiciona_vizinho(G,0,5,2);
-
 	adiciona_vizinho(G,1,2,2);
-
 	adiciona_vizinho(G,5,1,2);
 
 
 	// Vizinhos de 3
-
-
-
 	adiciona_vizinho(G,0,1,3);
-
 	adiciona_vizinho(G,6,2,3);
-
 	adiciona_vizinho(G,7,4,3);
 
-
 	// Vizinhos 4
-
-
 	adiciona_vizinho(G,1,4,4);
-
 	adiciona_vizinho(G,11,5,4);
+
 	//Vizinhos 5
 	adiciona_vizinho(G,2,1,5);
-
 	adiciona_vizinho(G,8,5,5);
-
-
 	adiciona_vizinho(G,9,10,5);
-
-
 	adiciona_vizinho(G,10,15,5);
 
 	//vizinhos 6
-
-
 	adiciona_vizinho(G,3,2,6);
-
 	adiciona_vizinho(G,8,3,6);
 
 	// vizinhos 7
-
-
 	adiciona_vizinho(G,3,4,7);
-
 	adiciona_vizinho(G,12,1,7);
-
 	adiciona_vizinho(G,13,2,7);
-
-
 	adiciona_vizinho(G,9,6,7);
+
 	//vizinhos 8
-
-
 	adiciona_vizinho(G,5,5,8);
-
 	adiciona_vizinho(G,6,3,8);
 
 	// vizinhos 9
 	adiciona_vizinho(G,5,10,9);
-
-
 	adiciona_vizinho(G,7,6,9);
 
 	// vizinhos 10
-
-
 	adiciona_vizinho(G,5,15,10);
-
 	adiciona_vizinho(G,12,2,10);
 	adiciona_vizinho(G,13,3,10);
 
-
 	// vizinhos 11
-
-
 	adiciona_vizinho(G,4,5,11);
-
 	adiciona_vizinho(G,12,1,11);
-
-
 	adiciona_vizinho(G,13,2,11);
 
 	//vizinhos 12
-
-
 	adiciona_vizinho(G,7,1,12);
-
 	adiciona_vizinho(G,10,2,12);
-
 	adiciona_vizinho(G,11,1,12);
 
 	// vizinhos 13
-
-
 	adiciona_vizinho(G,7,2,13);
-
 	adiciona_vizinho(G,10,3,13);
-
-
 	adiciona_vizinho(G,11,2,13);
-
-
-
-
 }
 
-void dijkstra(int n, int node,int toNode, int **matrizAdjacencias)
+void dijkstra(int n, int node, int **matrizAdjacencias)
 {
 	int cycles;
+	int fixo[10000]; // TODO FAZER DINAMICO O FIXO COM O NUMERO DE NOS
 
 	for (int i = 0; i <  n; ++i)/*ALl distances will be iguality to INFINITY and all fixos to know what 
 	you stay will be 0*/
@@ -815,13 +744,6 @@ void dijkstra(int n, int node,int toNode, int **matrizAdjacencias)
 				/*If the distance to this node is bigger than that some, change the value and save*/
 				dist[i] = dist[no] + matrizAdjacencias[no][i];
 				
-				if(i==toNode)
-				{
-						
-						save[0]=no;
-						save[1]=i;
-						
-				}
 			}
 		}
 	}

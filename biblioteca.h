@@ -4,9 +4,7 @@
 
 #define INF INT_MAX - 10000000
 
-int fixo[10000];
 int dist[10000];
-int save[2];
 
 typedef struct table
 {
@@ -77,6 +75,6 @@ void GeraMatrizAdjacencias(Grafo *g);
 
 void LiberaGrafo(Grafo *G);
 
-void dijkstra(int n, int node,int toNode, int **matrizAdjacencias);
+void dijkstra(int n, int node, int **matrizAdjacencias);
 
 void reverte_visitado(Grafo *ptr);
