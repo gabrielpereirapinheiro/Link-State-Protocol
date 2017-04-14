@@ -235,7 +235,7 @@ void ve_table(Grafo *ptr,int no)
 
 	while(ponteiro_table!=NULL)
 	{
-		printf("\n FROM -> %d\n LINK -> %d \n LINK -> %d \n COST -> %d\n",ponteiro_table->from,ponteiro_table->link[0],ponteiro_table->link[1],ponteiro_table->cost);
+		printf("\n FROM -> %d\n LINK -> %d \n LINK -> %d \n COST -> %d\n ",ponteiro_table->from,ponteiro_table->link[0],ponteiro_table->link[1],ponteiro_table->cost);
 		ponteiro_table = ponteiro_table-> proximo;
 	}
 }
@@ -273,9 +273,10 @@ void envia_msg(Grafo *ptr, int no,int from,int link_1,int link_2,int cost,int se
 		else /*Caso ja esteja na tabela, confere o seq .*/
 		{
 			seq_compara= retorna_seq(ptr,novo_no,link_1,link_2);
-
+			
 			if( seq_compara > seq  )
 			{
+		
 				atualiza_table(ptr,novo_no,link_1,link_2,age,cost);
 			}
 
@@ -384,6 +385,8 @@ void flooding(Grafo *ptr,int no,int from,int link_1,int link_2, int cost , int s
 			int no_atual = ponteiro_aux_adj->id_adj;
 	
 			valor = status_vistiado(ptr,no_atual);
+
+			seq ++ ;
 
 			envia_msg(ptr,no_atual,from,link_1,link_2,cost,seq,age);
 
