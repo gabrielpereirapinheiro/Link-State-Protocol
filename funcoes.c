@@ -1,29 +1,27 @@
 /*TRABALHO DE TELEINFORMATICA E REDES 2
 *
-* ALUNO : GABRIEL PEREIRA PINHEIRO
-* ALUNO : VICTOR ARAUJO VIEIRA
-* MATRICULA: 14/0020764
+* ALUNO : GABRIEL PEREIRA PINHEIRO - 14/0020764
+* ALUNO : VICTOR ARAUJO VIEIRA - 14/0032801
 * UNIVERSIDADE DE BRASILIA
 * DEPARTAMENTO DE CIENCIA DA COMPUTACAO
-* PROFESSOR: JACIR BORDIN
+* PROFESSOR: JACIR BORDIM
 *
 */
-
-
 #include "biblioteca.h"
+
 /*Funcao Cria_grafo
-* Funcao que ira criar a struct_grafo e cria uma
+* Funcao que ira criar a Grafo e cria uma
 * struct no e aponta para ela.
 */
-struct struct_grafo * cria_grafo()
+Grafo * cria_grafo()
 {
-	struct no *novo_no;
+	No *novo_no = NULL;
 
-	struct struct_grafo *grafo;
+	Grafo *grafo = NULL;
 
-	grafo = (struct struct_grafo *)malloc(sizeof(struct struct_grafo));
+	grafo = (Grafo *)malloc(sizeof(Grafo));
 
-	novo_no = (struct no *)malloc(sizeof(struct no));
+	novo_no = (No *)malloc(sizeof(No));
 
 	novo_no->id = -1;
 
@@ -32,6 +30,7 @@ struct struct_grafo * cria_grafo()
 	novo_no->proximo_table= NULL;
 
 	grafo->cabeca = novo_no;/*cabeca ira apontar para o primeiro no*/
+	grafo->V = 0; /*inicializa o numero de vertices como 0*/
 
 	return grafo;
 
@@ -40,13 +39,14 @@ struct struct_grafo * cria_grafo()
 * e inseri-lo no fim da lista de nos , a cabeca
 * da struct grafo ira apontar para a primeira.
 */
-void adiciona_no(struct struct_grafo *ptr,int ID)
+void adiciona_no(Grafo *ptr, int ID)
 {
-	struct no *ponteiro = NULL;
-	struct no *novo_no;
-	struct no *ponteiro_aux ;
+	No *ponteiro = NULL;
+	No *novo_no = NULL;
+	No *ponteiro_aux = NULL;
 
 	ponteiro = ptr->cabeca;
+	ptr->V++; /*incrementa o numero de vertices no grafo*/
 
 	while(ponteiro->id!=-1 && ponteiro->proximo!=NULL)
 	{	
@@ -59,7 +59,7 @@ void adiciona_no(struct struct_grafo *ptr,int ID)
 
 	ponteiro->proximo_adj = NULL;
 
-	novo_no = (struct no *)malloc(sizeof(struct no));
+	novo_no = (No *)malloc(sizeof(No));
 
 	ponteiro->proximo = novo_no;
 
@@ -77,12 +77,12 @@ void adiciona_no(struct struct_grafo *ptr,int ID)
 /* Funcao adciona_vizinho ira criar no no (FROM) um vizinho com o ID vizinho
 * que tem como custo o link from->vizinho o custo COST*
 */
-void adiciona_vizinho(struct struct_grafo *ptr,int vizinho,int cost,int from)
+void adiciona_vizinho(Grafo *ptr,int vizinho,int cost,int from)
 {
-	struct no * ponteiro;
-	struct adj *ponteiro_adj;
-	struct adj *ponteiro_aux;
-	struct adj *ponteiro_aux2;
+	No *ponteiro;
+	adj *ponteiro_adj;
+	adj *ponteiro_aux;
+	adj *ponteiro_aux2;
 
 	ponteiro = ptr->cabeca;
 
@@ -99,7 +99,7 @@ void adiciona_vizinho(struct struct_grafo *ptr,int vizinho,int cost,int from)
 		
 		if(ponteiro_adj == NULL)
 		{
-			ponteiro_aux = (struct adj*)malloc(sizeof(struct adj));
+			ponteiro_aux = (adj*)malloc(sizeof(adj));
 
 			ponteiro->proximo_adj= ponteiro_aux;
 
@@ -122,7 +122,7 @@ void adiciona_vizinho(struct struct_grafo *ptr,int vizinho,int cost,int from)
 
 			ponteiro_aux2 = ponteiro_aux;
 
-			ponteiro_aux = (struct adj*)malloc(sizeof(struct adj));
+			ponteiro_aux = (adj*)malloc(sizeof(adj));
 
 			ponteiro_aux2->proximo = ponteiro_aux;
 
@@ -139,9 +139,9 @@ void adiciona_vizinho(struct struct_grafo *ptr,int vizinho,int cost,int from)
 /* Funcao retorna_ponteiro_no ira retornar o ponteiro do no
 * que for pedido no parametro ID
 */
-struct no * retorna_ponteiro_no(struct struct_grafo *ptr,int id)
+No * retorna_ponteiro_no(Grafo *ptr,int id)
 {
-	struct no *ponteiro;
+	No *ponteiro = NULL;
 
 	ponteiro = ptr->cabeca;
 
@@ -157,22 +157,22 @@ struct no * retorna_ponteiro_no(struct struct_grafo *ptr,int id)
 * que foi especificado
 *
 */
-void adiciona_table(struct struct_grafo *ptr,int no ,int from, int link_1,int link_2,int cost, int seq,int age)
+void adiciona_table(Grafo *ptr,int no ,int from, int link_1,int link_2,int cost, int seq,int age)
 {
 
-	struct no *ponteiro; /*PONTEIRO PARA MANIPULAR UM NO*/
-	struct table *ponteiro_table; /*PONTEIRO PARA MANIPULAR UMA TABLE*/
-	struct table *ponteiro_aux_table;
-	struct table *ponteiro_aux_table_2;
+	No *ponteiro = NULL; /*PONTEIRO PARA MANIPULAR UM NO*/
+	table *ponteiro_table = NULL; /*PONTEIRO PARA MANIPULAR UMA TABLE*/
+	table *ponteiro_aux_table = NULL;
+	table *ponteiro_aux_table_2 = NULL;
 
-	ponteiro = retorna_ponteiro_no(ptr,no);
+	ponteiro = retorna_ponteiro_no(ptr, no);
 
 	ponteiro_table = ponteiro->proximo_table;
 
 	if(ponteiro_table == NULL)
 	{
 		
-		ponteiro_aux_table = (struct table*)malloc(sizeof(struct table));
+		ponteiro_aux_table = (table*)malloc(sizeof(table));
 
 		ponteiro_aux_table -> from = from;
 
@@ -198,7 +198,7 @@ void adiciona_table(struct struct_grafo *ptr,int no ,int from, int link_1,int li
 		
 			ponteiro_aux_table_2 = ponteiro_aux_table;
 
-			ponteiro_aux_table = (struct table*)malloc(sizeof(struct table));
+			ponteiro_aux_table = (table*)malloc(sizeof(table));
 
 			ponteiro_aux_table_2 ->proximo = ponteiro_aux_table;
 
@@ -218,10 +218,10 @@ void adiciona_table(struct struct_grafo *ptr,int no ,int from, int link_1,int li
 * Funcao ve_table mostra todas as tables do nó que for passado como parametro
 *
 */
-void ve_table(struct struct_grafo *ptr,int no)
+void ve_table(Grafo *ptr,int no)
 {
-	struct no *ponteiro;
-	struct table *ponteiro_table;
+	No *ponteiro = NULL;
+	table *ponteiro_table = NULL;
 
 	ponteiro = retorna_ponteiro_no(ptr,no);
 
@@ -238,11 +238,11 @@ void ve_table(struct struct_grafo *ptr,int no)
 * Funcao envia_msg ira enviar a mensagem recebida como parametro para todos os vizinhos
 * do no recebido tambem como parametro
 */
-void envia_msg(struct struct_grafo *ptr, int no,int from,int link_1,int link_2,int cost,int seq,int age)
+void envia_msg(Grafo *ptr, int no,int from,int link_1,int link_2,int cost,int seq,int age)
 {
-	struct no *ponteiro;
-	struct adj *ponteiro_adj;
-	struct adj *ponteiro_aux;
+	No *ponteiro = NULL;
+	adj *ponteiro_adj = NULL;
+	adj *ponteiro_aux = NULL;
 	int novo_no;
 	int var_bool;
 
@@ -283,11 +283,11 @@ void envia_msg(struct struct_grafo *ptr, int no,int from,int link_1,int link_2,i
 * Funcao que envia mensagem dos custos atuais para os demais
 * NAO ESTA SENDO USADA ! 
 */
-void manda_msg(struct struct_grafo *ptr,int no)
+void manda_msg(Grafo *ptr,int no)
 {
 
-	struct no *ponteiro;
-	struct adj *ponteiro_adj;
+	No *ponteiro = NULL;
+	adj *ponteiro_adj = NULL;
 	int from,link_1,link_2,cost,seq,age;
 
 	ponteiro = retorna_ponteiro_no(ptr,no);
@@ -316,23 +316,21 @@ void manda_msg(struct struct_grafo *ptr,int no)
 	}
 }
 
-void flooding(struct struct_grafo *ptr,int no,int from,int link_1,int link_2, int cost , int seq,int age)
+void flooding(Grafo *ptr,int no,int from,int link_1,int link_2, int cost , int seq,int age)
 {
 
-	struct lista *ponteiro_lista;
-	struct lista *ponteiro_lista_aux;
+	No *ponteiro = NULL;
+	adj *ponteiro_adj = NULL;
 
-	struct no *ponteiro;
-	struct adj *ponteiro_adj;
-
-	struct no *ponteiro_aux;
-	struct adj *ponteiro_aux_adj;
+	No *ponteiro_aux = NULL;
+	adj *ponteiro_aux_adj = NULL;
 
 	int i;
 	int numero_max = 10;
 	int vetor[numero_max];/*Proxima rota*/
+	int valor = 0, adiciona = 0;;
 
-	for (int i = 0; i < numero_max ; ++i)
+	for (i = 0; i < numero_max ; ++i)
 	{
 		vetor[i]=-1; /*Saber se nao foi usado*/
 		//printf("em %d e %d\n",i,vetor[i] );
@@ -374,12 +372,9 @@ void flooding(struct struct_grafo *ptr,int no,int from,int link_1,int link_2, in
 		{
 			//printf("o vizinho de %d e %d \n",vetor[i],ponteiro_aux_adj->id_adj );
 
-			int adiciona = 0;
 			int no_atual = ponteiro_aux_adj->id_adj;
-			int valor ;
-
+	
 			valor = status_vistiado(ptr,no_atual);
-
 
 			envia_msg(ptr,no_atual,from,link_1,link_2,cost,seq,age);
 
@@ -404,11 +399,11 @@ void flooding(struct struct_grafo *ptr,int no,int from,int link_1,int link_2, in
 	}	
 }
 
-int confere_table(struct struct_grafo *ptr,int no,int link_1,int link_2)
+int confere_table(Grafo *ptr,int no,int link_1,int link_2)
 {
 	int var_bool=0;
-	struct no *ponteiro;
-	struct table *ponteiro_table;
+	No *ponteiro = NULL;
+	table *ponteiro_table = NULL;
 
 	ponteiro = retorna_ponteiro_no(ptr,no);
 
@@ -428,9 +423,9 @@ int confere_table(struct struct_grafo *ptr,int no,int link_1,int link_2)
 	return var_bool;
 }
 
-void muda_visitado(struct struct_grafo *ptr,int no)
+void muda_visitado(Grafo *ptr,int no)
 {
-	struct no *ponteiro;
+	No *ponteiro = NULL;
 
 	ponteiro = retorna_ponteiro_no(ptr,no);
 
@@ -443,11 +438,11 @@ void muda_visitado(struct struct_grafo *ptr,int no)
 *
 *
 */
-int status_vistiado(struct struct_grafo *ptr,int no)
+int status_vistiado(Grafo *ptr,int no)
 {
 	int valor_retornado;
 
-	struct no *ponteiro;
+	No *ponteiro = NULL;
 
 	ponteiro = retorna_ponteiro_no(ptr,no);
 
@@ -457,10 +452,10 @@ int status_vistiado(struct struct_grafo *ptr,int no)
 }
 
 
-void lsa_min(struct struct_grafo *ptr,int no)
+void lsa_min(Grafo *ptr,int no)
 {
-	struct no *ponteiro;
-	struct adj *ponteiro_adj;
+	No *ponteiro = NULL;
+	adj *ponteiro_adj = NULL;
 
 	int from,cost,link_1,link_2,age,seq;
 
@@ -483,9 +478,9 @@ void lsa_min(struct struct_grafo *ptr,int no)
 	}
 }
 
-void lsa_max(struct struct_grafo *ptr)
+void lsa_max(Grafo *ptr)
 {
-	struct no *ponteiro;
+	No *ponteiro = NULL;
 
 	/*
 	* Por DEFAULT colocaremos o inicial do LSA 
@@ -501,4 +496,44 @@ void lsa_max(struct struct_grafo *ptr)
 		lsa_min(ptr,ponteiro->id);
 		ponteiro = ponteiro->proximo;
 	}	
+}
+
+void LiberaGrafo(Grafo *G){
+
+	No *verticePtr = NULL, *vertPtrAux = NULL; // ponteiro para vertices
+	adj *adjPtr = NULL, *adjPtrAux = NULL; // ponteiro para adjacentes
+	table *tablePtr = NULL, *tablePtrAux = NULL; // ponteiro para a tabela de banco de dados
+
+	if(G){
+		if(G->cabeca){
+			verticePtr = G->cabeca;
+			//vai percorrer todos os vertices do grafo
+			while(verticePtr != NULL){
+				//para todo vertice, vai verificar se existe lista de vizinhos e tabelas, e vai libera-los
+				//libera os adjacentes
+				if(verticePtr->proximo_adj){
+					adjPtr = verticePtr->proximo_adj;
+					while(adjPtr != NULL){
+						adjPtrAux = adjPtr->proximo;
+						free(adjPtr);
+						adjPtr = adjPtrAux;
+					}
+				}
+				//libera as tabelas de banco de dados
+				if(verticePtr->proximo_table){
+					tablePtr = verticePtr->proximo_table;
+					while(tablePtr != NULL){
+						tablePtrAux = tablePtr->proximo;
+						free(tablePtr);
+						tablePtr = tablePtrAux;
+					}
+				}
+				//agora vai liberar o no de fato
+				vertPtrAux = verticePtr->proximo;
+				free(verticePtr);
+				verticePtr = vertPtrAux;
+			}
+		}
+		free(G);
+	}
 }

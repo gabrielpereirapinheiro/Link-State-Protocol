@@ -1,30 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct struct_grafo
-{
-	struct no *cabeca;
-};
-
-struct no
-{
-	int id;
-	int flag_visitado;
-	struct no *proximo;
-	struct adj *proximo_adj;
-	struct table *proximo_table;
-};
-
-struct adj
-{
-	int id_adj;
-	int flag_enviado;
-	int cost;
-	struct adj *proximo;
-};
-
-
-struct table
+typedef struct table
 {
 	int from;
 	int link[2];
@@ -32,38 +9,58 @@ struct table
 	int seq;
 	int age;
 	struct table *proximo;
-};
+}table;
 
-struct lista
+typedef struct adj
 {
-	int no;
-	struct lista *proximo;
-};
+	int id_adj;
+	int flag_enviado;
+	int cost;
+	struct adj *proximo;
+}adj;
 
-struct struct_grafo * cria_grafo();
+typedef struct no
+{
+	int id;
+	int flag_visitado;
+	struct no *proximo;
+	adj *proximo_adj;
+	table *proximo_table;
+}No;
 
-void adiciona_no(struct struct_grafo *ptr,int ID);
+typedef struct grafo
+{
+	int V; /*numero de vertices no grafo*/
+    No *cabeca;
 
-void adiciona_vizinho(struct struct_grafo *ptr,int vizinho,int cost,int from);
+}Grafo;
 
-struct no * retorna_ponteiro_no(struct struct_grafo *ptr,int id);
+Grafo * cria_grafo();
 
-void adiciona_table(struct struct_grafo *ptr,int no, int from, int link_1,int link_2,int cost, int seq,int age);
+void adiciona_no(Grafo *ptr,int ID);
 
-void ve_table(struct struct_grafo *ptr,int no);
+void adiciona_vizinho(Grafo *ptr,int vizinho,int cost,int from);
 
-void envia_msg(struct struct_grafo *ptr, int no,int from,int link_1,int link_2,int cost,int seq,int age);
+No * retorna_ponteiro_no(Grafo *ptr,int id);
 
-void manda_msg(struct struct_grafo *ptr,int no);
+void adiciona_table(Grafo *ptr,int no, int from, int link_1,int link_2,int cost, int seq,int age);
 
-void flooding(struct struct_grafo *ptr,int no,int from,int link_1,int link_2, int cost , int seq ,int age);
+void ve_table(Grafo *ptr,int no);
 
-int confere_table(struct struct_grafo *ptr,int no,int link_1,int link_2);
+void envia_msg(Grafo *ptr, int no,int from,int link_1,int link_2,int cost,int seq,int age);
 
-void muda_visitado(struct struct_grafo *ptr,int no);
+void manda_msg(Grafo *ptr,int no);
 
-int status_vistiado(struct struct_grafo *ptr,int no);
+void flooding(Grafo *ptr,int no,int from,int link_1,int link_2, int cost , int seq ,int age);
 
-void lsa_min(struct struct_grafo *ptr,int no);
+int confere_table(Grafo *ptr,int no,int link_1,int link_2);
 
-void lsa_max(struct struct_grafo *ptr);
+void muda_visitado(Grafo *ptr,int no);
+
+int status_vistiado(Grafo *ptr,int no);
+
+void lsa_min(Grafo *ptr,int no);
+
+void lsa_max(Grafo *ptr);
+
+void LiberaGrafo(Grafo *G);

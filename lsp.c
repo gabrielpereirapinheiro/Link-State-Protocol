@@ -12,10 +12,10 @@ void preenche_matriz(int G[][10])
 
 }
 
-void completa_com_valor(int G[][10],struct struct_grafo *ptr,int no)
+void completa_com_valor(int G[][10], Grafo *ptr,int no)
 {
-	struct no *ponteiro;
-	struct table *ponteiro_aux;
+	No *ponteiro = NULL;
+	table *ponteiro_aux = NULL;
 	
 	ponteiro = retorna_ponteiro_no(ptr,no)	;
 
@@ -25,9 +25,9 @@ void completa_com_valor(int G[][10],struct struct_grafo *ptr,int no)
 
 int main()
 {
-	struct struct_grafo *grafo;
-	struct no *ponteiro;
-	struct adj *ponteiro_aux;
+	Grafo *grafo = NULL;
+	No *ponteiro = NULL;
+	adj *ponteiro_aux = NULL;
 	int G[10][10];
 
 	grafo = cria_grafo();
@@ -75,7 +75,6 @@ int main()
 	adiciona_vizinho(grafo,4,11,6);
 
 	adiciona_vizinho(grafo,5,12,6);
-
 	//manda_msg(grafo,2);
 	//manda_msg(grafo,3);
 
@@ -108,7 +107,7 @@ int main()
 	printf("\n\n******NO 6******\n\n");
 	ve_table(grafo,6);
 
-
+	LiberaGrafo(grafo);
 
 	//preenche_matriz(G);
 
