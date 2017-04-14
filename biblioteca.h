@@ -1,5 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h>
+
+#define INF INT_MAX
 
 typedef struct table
 {
@@ -62,5 +65,11 @@ int status_vistiado(Grafo *ptr,int no);
 void lsa_min(Grafo *ptr,int no);
 
 void lsa_max(Grafo *ptr);
+
+void dijkstra(int n,int node,int toNode);
+
+int **GeraMatrizAdjacencias(Grafo *g, int **matrizAdjacencias);
+
+void LiberaMatriz(int **matrizAdjacencias);
 
 void LiberaGrafo(Grafo *G);

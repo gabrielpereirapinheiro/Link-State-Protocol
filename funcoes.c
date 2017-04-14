@@ -537,3 +537,25 @@ void LiberaGrafo(Grafo *G){
 		free(G);
 	}
 }
+
+/*Funcao que vai gerar a matri de adjacencias a partir das tabelas do banco de dados de cada vertice*/
+int **GeraMatrizAdjacencias(Grafo *G, int **matrizAdjacencias){
+	No *vertPtr = NULL; //ponteiro que percorrera a lista de vertices do grafo
+	table *tabPtr = NULL; // ponteiro que percorrera a lista de tabelas do vertice
+	int i = 0, j = 0;
+
+	//parte que vai alocar a matriz de adjacencias
+	matrizAdjacencias = (int**)malloc((G->V)*sizeof(int*));
+	if(matrizAdjacencias == NULL){
+		printf("Nao foi possivel alocar a matriz de adjacencias!\n");
+		exit(1);
+	}
+	for(i = 0; i < G->V; i++){
+		matrizAdjacencias[i] = (int*)malloc((G->V)*sizeof(int));
+	}
+
+	for(vertPtr = G->cabeca; vertPtr != NULL; vertPtr = vertPtr->proximo)
+
+	return matrizAdjacencias;
+}
+

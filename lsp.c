@@ -1,16 +1,4 @@
 #include "biblioteca.h"
-void preenche_matriz(int G[][10])
-{
-	for (int i = 0; i < 10; ++i)
-	{
-		for (int j = 0; j < 10; ++j)
-		{
-			G[i][j]=-1;
-		}
-		printf("\n");
-	}
-
-}
 
 void completa_com_valor(int G[][10], Grafo *ptr,int no)
 {
@@ -28,7 +16,7 @@ int main()
 	Grafo *grafo = NULL;
 	No *ponteiro = NULL;
 	adj *ponteiro_aux = NULL;
-	int G[10][10];
+	int **matrizAdjacencias;
 
 	grafo = cria_grafo();
 
