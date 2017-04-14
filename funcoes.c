@@ -402,7 +402,7 @@ void flooding(Grafo *ptr,int no,int from,int link_1,int link_2, int cost , int s
 			if(adiciona==0 && valor==-1)/*SE AINDA NAO TIVER NO VETOR E NAO TIVER SIDO VISITADO ADD NO VETOR*/
 			{
 				vetor[last]= ponteiro_aux_adj->id_adj; /*ADICIONA NA ULTIMA POSICAO SALVA*/
-				last++; /*PARA O PROXIMO A SER INSERIDO*/
+				last++; /*PAARA O PROXIMO A SER INSERIDO*/
 			}
 
 			ponteiro_aux_adj = ponteiro_aux_adj->proximo;
