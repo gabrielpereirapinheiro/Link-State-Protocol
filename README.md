@@ -2,10 +2,16 @@
 
 
 Implementação do protocolo Link State Protocol
+
 Autores : Gabriel Pereira Pinheiro
 Victor Araujo Vieira
+
 email : gabriel.pereira.pinheiro@hotmail.com
 icevct@gmail.com
+
+Universida de Brasilia - UnB
+
+Departamento de Ciencia da Computação
 
 COMO EXECUTAR O PROGRAMA :
 
@@ -16,5 +22,5 @@ O código gerado tem como objetivo simular o funcionamento do protocolo LSP (Lin
 
 METODOLOGIA :
 
-O modo que o grupo pensou 
+O modo que o grupo pensou de realizar o flooding foi separar o programa em funcoes, a mais básica iria enviara mensagem para todos os seus vizinhos, outra iria controlar quais seriam os nós que iriam enviar as mensagem para os seus vizinhos de modo que a mensagem fosse propagada por toda a topologia
 
