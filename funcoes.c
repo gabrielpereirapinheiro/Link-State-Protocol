@@ -33,6 +33,10 @@ Grafo * cria_grafo()
 
 	novo_no->proximo_table= NULL;
 
+	novo_no->nomeVertice = NULL;
+
+	novo_no->vetorDistancias = NULL;
+
 	grafo->cabeca = novo_no;/*cabeca ira apontar para o primeiro no*/
 	grafo->V = 0; /*inicializa o numero de vertices como 0*/
 
@@ -43,8 +47,9 @@ Grafo * cria_grafo()
 * e inseri-lo no fim da lista de nos , a cabeca
 * da struct grafo ira apontar para a primeira.
 */
-void adiciona_no(Grafo *ptr, int ID)
+void adiciona_no(Grafo *ptr, int ID, char *nomeNo)
 {
+	int tamNomeVertice = 0;
 	No *ponteiro = NULL;
 	No *novo_no = NULL;
 	No *ponteiro_aux = NULL;
@@ -58,6 +63,15 @@ void adiciona_no(Grafo *ptr, int ID)
 	}
 
 	ponteiro->id = ID;
+
+	tamNomeVertice = strlen(nomeNo) + 1;
+	ponteiro->nomeVertice = (char*)malloc(tamNomeVertice*sizeof(char));
+	if(ponteiro->nomeVertice == NULL){
+		printf("Nao foi possivel alocar a string do nome do vertice!\n");
+		exit(1);
+	}
+
+	strcpy(ponteiro->nomeVertice, nomeNo); //copia o nome passado como parametro para o campo do No correspondente ao nome do vertice
 
 	ponteiro->flag_visitado = -1;
 
@@ -281,42 +295,6 @@ void envia_msg(Grafo *ptr, int no,int from,int link_1,int link_2,int cost,int se
 			}
 
 		}
-		ponteiro_adj = ponteiro_adj -> proximo;
-	}
-}
-/*
-* Funcao que envia mensagem dos custos atuais para os demais
-* NAO ESTA SENDO USADA ! 
-*/
-void manda_msg(Grafo *ptr,int no)
-{
-
-	No *ponteiro = NULL;
-	adj *ponteiro_adj = NULL;
-	int from,link_1,link_2,cost,seq,age;
-
-	ponteiro = retorna_ponteiro_no(ptr,no);
-
-	ponteiro_adj = ponteiro->proximo_adj;
-
-	while(ponteiro_adj!=NULL)
-	{
-		from = no;
-
-		link_1 = no ;
-
-		link_2 = ponteiro_adj-> id_adj;
-
-		cost = ponteiro_adj -> cost;
-
-		seq = 1;
-
-		age = 0;
-
-		//printf("**VAI ENVIAR PARA OS VIZINHOS DE %d que %d ate %d custa %d\n",no,link_1,link_2,cost );
-
-		envia_msg(ptr,no,from,link_1,link_2,cost,seq,age);
-
 		ponteiro_adj = ponteiro_adj -> proximo;
 	}
 }
@@ -614,6 +592,8 @@ void LiberaGrafo(Grafo *G){
 					free(verticePtr->matrizAdjacencias);
 				}
 				//agora vai liberar o no de fato
+				free(verticePtr->nomeVertice);
+				free(verticePtr->vetorDistancias);
 				vertPtrAux = verticePtr->proximo;
 				free(verticePtr);
 				verticePtr = vertPtrAux;
@@ -660,23 +640,36 @@ void GeraMatrizAdjacencias(Grafo *G){
 	}	
 }
 
+/*Funcao que vai alocar o vertorDistancias de cada vertice do grafo*/
+void AlocaVetorDistancias(Grafo *G){
+	No *verticePtr = NULL;
+
+	for(verticePtr = G->cabeca; verticePtr != NULL; verticePtr = verticePtr->proximo){
+		verticePtr->vetorDistancias = (int*)malloc((G->V)*sizeof(int)); // cada vetor distancias tem como tamano o numero de nos do grafo
+		if(verticePtr->vetorDistancias == NULL){
+			printf("Nao foi possivel alocar o vetorDistancias do vertice %s\n", verticePtr->nomeVertice);
+			exit(1);
+		}
+	}
+}
+
 /*Funcao que vai criar a topologia da NFSNET*/
 void GeraGrafoNFSNET(Grafo *G){
 
-	adiciona_no(G,0); //WA
-	adiciona_no(G,1); //CA1
-	adiciona_no(G,2); //CA2
-	adiciona_no(G,3); //IL
-	adiciona_no(G,4); //UT
-	adiciona_no(G,5);  //TX
-	adiciona_no(G,6); //NE
-	adiciona_no(G,7); //PA
-	adiciona_no(G,8); //MI
-	adiciona_no(G,9); //CO
-	adiciona_no(G,10); //GA
-	adiciona_no(G,11); //DC
-	adiciona_no(G,12); //NY
-	adiciona_no(G,13); //NJ
+	adiciona_no(G,0, "WA"); //WA
+	adiciona_no(G,1, "CA1"); //CA1
+	adiciona_no(G,2, "CA2"); //CA2
+	adiciona_no(G,3, "IL"); //IL
+	adiciona_no(G,4, "UT"); //UT
+	adiciona_no(G,5, "TX");  //TX
+	adiciona_no(G,6, "NE"); //NE
+	adiciona_no(G,7, "PA"); //PA
+	adiciona_no(G,8, "MI"); //MI
+	adiciona_no(G,9, "CO"); //CO
+	adiciona_no(G,10, "GA"); //GA
+	adiciona_no(G,11, "DC"); //DC
+	adiciona_no(G,12, "NY"); //NY
+	adiciona_no(G,13, "NJ"); //NJ
 
 	//Vizinhos de 0
 	adiciona_vizinho(G,1,3,0);
@@ -746,21 +739,29 @@ void GeraGrafoNFSNET(Grafo *G){
 	adiciona_vizinho(G,7,2,13);
 	adiciona_vizinho(G,10,3,13);
 	adiciona_vizinho(G,11,2,13);
+
+	AlocaVetorDistancias(G);
 }
 
-void dijkstra(int n, int node, int **matrizAdjacencias)
+void dijkstra(int n, int node, int **matrizAdjacencias, No *vertice)
 {
 	int cycles;
-	int fixo[10000]; // TODO FAZER DINAMICO O FIXO COM O NUMERO DE NOS
+	int *fixo = NULL; 
+
+	fixo = (int*)malloc(n*sizeof(int));
+	if(fixo == NULL){
+		printf("Nao foi possivel alocar o vetor fixo na funcao Dijkstra!\n");
+		exit(1);
+	}
 
 	for (int i = 0; i <  n; ++i)/*ALl distances will be iguality to INFINITY and all fixos to know what 
 	you stay will be 0*/
 	{
 		fixo[i]=0;
-		dist[i]=INF;
+		vertice->vetorDistancias[i]=INF;
 	}
 
-	dist[node]=0; /*Define what node will be the reference*/
+	vertice->vetorDistancias[node]=0; /*Define what node will be the reference*/
 
 	/*Executed n times ( n = number of nodes )*/
 	for(cycles = n ; cycles > 0 ; cycles -- )
@@ -769,7 +770,7 @@ void dijkstra(int n, int node, int **matrizAdjacencias)
 
 		for (int i = 0; i < n; ++i) 
 		{
-			if(!fixo[i] && (no==-1 || dist[i] < dist[no]))
+			if(!fixo[i] && (no==-1 || vertice->vetorDistancias[i] < vertice->vetorDistancias[no]))
 			{
 				//printf("!fixo[%d]= %d && %d = -1 || dist[%d]= %d < dis[%d] = %d  \n", i,fixo[i],no,i,dist[i],no,dist[no] );
 				no=i;	
@@ -778,7 +779,7 @@ void dijkstra(int n, int node, int **matrizAdjacencias)
 	
 		fixo[no] = 1;
 
-		if(dist[no] == INF)
+		if(vertice->vetorDistancias[no] == INF)
 		{	
 			/*If the distance is infinity, go out loop*/
 			break;
@@ -786,14 +787,16 @@ void dijkstra(int n, int node, int **matrizAdjacencias)
 	
 		for (int i = 0; i < n; ++i)
 		{
-			if(matrizAdjacencias[no][i] && dist[i] > dist[no] + matrizAdjacencias[no][i])
+			if(matrizAdjacencias[no][i] && vertice->vetorDistancias[i] > vertice->vetorDistancias[no] + matrizAdjacencias[no][i])
 			{	
 				/*If the distance to this node is bigger than that some, change the value and save*/
-				dist[i] = dist[no] + matrizAdjacencias[no][i];
+				vertice->vetorDistancias[i] = vertice->vetorDistancias[no] + matrizAdjacencias[no][i];
 				
 			}
 		}
 	}
+
+	free(fixo);
 }
 
 /*
@@ -815,4 +818,69 @@ void mostra_tables(Grafo *ptr)
 		ve_table(ptr,ponteiro->id);
 		ponteiro = ponteiro -> proximo;
 	}
+}
+
+/*Funcao que retorna o nome do no pelo id passado*/
+char *RetornaNomeVertice(Grafo *G, int id){
+	No *vertPtr = NULL;
+
+	for(vertPtr = G->cabeca; vertPtr != NULL; vertPtr = vertPtr->proximo){
+		if(id == vertPtr->id){
+			return vertPtr->nomeVertice;
+		}
+	}
+
+	return NULL;
+}
+
+/*Funcao que vai criar o grafo, executar o LSA, executar o dijstra quando todas as tabelas estiverem convergidas
+e criar um arquivo txt que mostrara as tabelas e informacoes de cada no*/
+void ExecutaLSAeCriaArquivos(){
+	Grafo *grafo = NULL;
+	No *verticePtr = NULL;
+	table *tabPtr = NULL;
+	FILE *fp = fopen("estatisticas.txt", "w");
+
+	grafo = cria_grafo();
+	GeraGrafoNFSNET(grafo); // vai gerar o grafo com a topologia do NFSNET
+	lsa_max(grafo); // vai executar o LSA
+	//mostra_tables(grafo); // vai mostrar no terminal as tabelas
+	GeraMatrizAdjacencias(grafo); // vai criar a matriz de adjacencia de cada vertice do grafo
+
+	// loop que vai calcular o dijkstra de cada vertice
+	for(verticePtr = grafo->cabeca; verticePtr != NULL; verticePtr = verticePtr->proximo){
+		dijkstra(grafo->V, verticePtr->id, verticePtr->matrizAdjacencias, verticePtr);
+	}
+
+	//loop que vai escrever no arquivo a partir de cada vertice, as estatisticas, como a tabela
+	//e o vetorDistancias
+	for(verticePtr = grafo->cabeca; verticePtr != NULL; verticePtr = verticePtr->proximo){
+		if(verticePtr->id != -1){
+			fprintf(fp, "Nome do vertice: %s, ID do vertice: %d\n\n", verticePtr->nomeVertice, verticePtr->id);
+			// informacoes da tabela
+			fprintf(fp, "Banco de dados de caminhos do vertice\n");
+			if(verticePtr->proximo_table){
+				for(tabPtr = verticePtr->proximo_table; tabPtr != NULL; tabPtr = tabPtr->proximo){
+					fprintf(fp, "Vertice de origem: %s, ID Vertice origem: %d, Aresta: %s->%s, Custo: %d, Numero de sequencia: %d\n", 
+						    RetornaNomeVertice(grafo, tabPtr->from), tabPtr->from, RetornaNomeVertice(grafo, tabPtr->link[0]),
+						    RetornaNomeVertice(grafo, tabPtr->link[1]), tabPtr->cost, tabPtr->seq);
+				}
+			}
+			fprintf(fp, "\n");
+			fprintf(fp, "Vetor de distancias do vertice\n");
+			// vetor de distancias
+			if(verticePtr->vetorDistancias){
+				for(int i = 0; i < grafo->V; i++){
+					if(i != verticePtr->id){
+						fprintf(fp, "Vertice destino: %s, Custo: %d\n", RetornaNomeVertice(grafo, i), verticePtr->vetorDistancias[i]);
+					}
+				}
+			}
+			fprintf(fp, "\n");
+			fprintf(fp, "-----------------------------------------------------------------------------------------\n");
+		}
+	}
+
+	LiberaGrafo(grafo);
+	fclose(fp);
 }
