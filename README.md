@@ -4,9 +4,11 @@
 Implementação do protocolo Link State Protocol
 
 Autores : Gabriel Pereira Pinheiro
+
 Victor Araujo Vieira
 
 email : gabriel.pereira.pinheiro@hotmail.com
+
 icevct@gmail.com
 
 Universida de Brasilia - UnB
