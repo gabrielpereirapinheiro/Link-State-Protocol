@@ -844,7 +844,6 @@ void ExecutaLSAeCriaArquivos(){
 	grafo = cria_grafo();
 	GeraGrafoNFSNET(grafo); // vai gerar o grafo com a topologia do NFSNET
 	lsa_max(grafo); // vai executar o LSA
-	//mostra_tables(grafo); // vai mostrar no terminal as tabelas
 	GeraMatrizAdjacencias(grafo); // vai criar a matriz de adjacencia de cada vertice do grafo
 
 	// loop que vai calcular o dijkstra de cada vertice
@@ -852,10 +851,12 @@ void ExecutaLSAeCriaArquivos(){
 		dijkstra(grafo->V, verticePtr->id, verticePtr->matrizAdjacencias, verticePtr);
 	}
 
+	printf("Arquivo estatisticas.txt vai ser gerado\n\n");
 	//loop que vai escrever no arquivo a partir de cada vertice, as estatisticas, como a tabela
 	//e o vetorDistancias
 	for(verticePtr = grafo->cabeca; verticePtr != NULL; verticePtr = verticePtr->proximo){
 		if(verticePtr->id != -1){
+			printf("Escrevendo no arquivo o vertice %s\n", verticePtr->nomeVertice);
 			fprintf(fp, "Nome do vertice: %s, ID do vertice: %d\n\n", verticePtr->nomeVertice, verticePtr->id);
 			// informacoes da tabela
 			fprintf(fp, "Banco de dados de caminhos do vertice\n");
@@ -877,9 +878,11 @@ void ExecutaLSAeCriaArquivos(){
 				}
 			}
 			fprintf(fp, "\n");
-			fprintf(fp, "-----------------------------------------------------------------------------------------\n");
+			fprintf(fp, "-----------------------------------------------------------------------------------------\n\n");
 		}
 	}
+
+	printf("\nArquivo estatisticas.txt gerado com sucesso!\n");
 
 	LiberaGrafo(grafo);
 	fclose(fp);
