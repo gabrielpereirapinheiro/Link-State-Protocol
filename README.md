@@ -3,15 +3,15 @@
 
 ### Autores:
 
-Gabriel Pereira Pinheiro - 14/0020764
+- Gabriel Pereira Pinheiro - 14/0020764
 
-Victor Araujo Vieira - 14/0032801
+- Victor Araujo Vieira - 14/0032801
 
 ### Email :
 
-gabriel.pereira.pinheiro@gmail.com
+- gabriel.pereira.pinheiro@gmail.com
 
-icevct@gmail.com
+- icevct@gmail.com
 
 # Universida de Brasilia - UnB
 
