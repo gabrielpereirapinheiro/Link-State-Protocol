@@ -29,7 +29,7 @@ Feito o make, basta digitar
 
 que sera executado o programa.
 
-### INTRODUCAO :
+### INTRODUÇÃO :
 
 O código gerado tem como objetivo simular o funcionamento do protocolo LSP (Link State Protocol), para isso foi utilizado a topologia da National Science Foundation Network (NSFNET) .
 
