@@ -1,5 +1,5 @@
 
-### Implementação do protocolo Link State Protocol
+## Implementação do protocolo Link State Protocol (LSP)
 
 ### Autores:
 
