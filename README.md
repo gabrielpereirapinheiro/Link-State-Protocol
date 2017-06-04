@@ -1,3 +1,6 @@
+# Universida de Brasilia - UnB
+
+## Departamento de Ciencia da Computação
 
 ## Implementação do protocolo Link State Protocol (LSP)
 
@@ -13,9 +16,6 @@
 
 - icevct@gmail.com
 
-# Universida de Brasilia - UnB
-
-## Departamento de Ciencia da Computação
 
 ### COMO EXECUTAR O PROGRAMA :
 
