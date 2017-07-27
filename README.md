@@ -15,15 +15,15 @@
 
 ### COMO EXECUTAR O PROGRAMA :
 
-Abra o terminal na pasta principal do programa, e digite o comando:
+- Abra o terminal na pasta principal do programa, e digite o comando:
 
 > $make
 
-Feito o make, basta digitar
+- Feito o make, basta digitar
 
 > $./lsp 
 
-que sera executado o programa.
+- que sera executado o programa.
 
 ### INTRODUÇÃO :
 
