@@ -1,43 +1,27 @@
-# Protocolo Link State Protocol (LSP)
-
-### Autores:
-
-- Gabriel Pereira Pinheiro 
-
-- Victor Araujo Vieira  
-
-### Email :
-
-- gabriel.pereira.pinheiro@gmail.com
-
-- icevct@gmail.com
+# Link State Protocol (LSP)
 
 
-### COMO EXECUTAR O PROGRAMA :
+### About :
 
-- Abra o terminal na pasta principal do programa, e digite o comando:
+- That code has the object to simulate the operation of the protcol ```LSP``` ([Link State Protocol](https://en.wikipedia.org/wiki/Link-state_routing_protocol)) using the C language, to do that was use the topology from National Science Foundation Network ([NSFNET](https://www.nsf.gov/news/news_summ.jsp?cntn_id=103050)) .
 
-> $make
+### How execute:
 
-- Feito o make, basta digitar
+- Open the terminal inside the main folder and use the command:
 
-> $./lsp 
+``` $make ```
 
-- que sera executado o programa.
+- After that, just use
 
-### INTRODUÇÃO :
+``` $./lsp ```
 
-- O código gerado tem como objetivo simular o funcionamento do protocolo ```LSP``` ([Link State Protocol](https://en.wikipedia.org/wiki/Link-state_routing_protocol)), para isso foi utilizado a topologia da National Science Foundation Network ([NSFNET](https://www.nsf.gov/news/news_summ.jsp?cntn_id=103050)) .
+- and the program will be executed.
 
-### METODOLOGIA :
+### Methodology :
 
-- O modo que o grupo pensou de realizar o ```flooding``` foi separar o programa em funções, a mais básica iria enviara mensagem para todos os seus vizinhos, outra iria controlar quais seriam os nós que iriam enviar as mensagem para os seus vizinhos de modo que a mensagem fosse propagada por toda a topologia. Uma outra funçao irá ser a responsavel por enviar o custo do nó atual para cada vizinho direto dele para todos os nós da topologia. E a função mais abrangente irá controlar qual será o nó que ira ser enviado para a ultima funcao comentada, isto é, essa funcao resumidademnte iŕa peccorrer todos os nós do grafo para que assim, todo nó dissemine os seus custos com seus vizinhos para todos os nós do grafo. No final é esperado que cada nó presente na topologia conheça tenha informação completa da rede, quando isso acontecer,é quando o convergiu. 
+- The mode used to create the ```flooding``` was separete the program in functions, the more basci was responsable to send the message to all your neighbours. Other function will control wich neighbours will send the messages to your neighbours so the messase was propagate to all topology. In the code has other function will be responsable to send the cust on the actual node to wich direct neighbour and the more abragent function will control wich node will send to the function comment previoulesty, so that function will run all nodes from the graph to every node disseminate your cust with ther neighbour in all graph. In the end of the code was expected every node in the topology knows about all network, and when that happen means the end of the program.
 
-### RESULTADO :
+### Result :
 
-- Será gerado, ao executar o código, um arquivo txt chamado ```estatistica.txt```, que terá para cada nó do grafo NFSNET, a sua tabela (database) com todos os caminhos da topologia e o vetor de distâncias para todos os outros nós, calculado usando o algoritmo de [Dijkstra](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm).
-
-### CONCLUSÃO :
-
-- Após a execução do programa e a analise do arquivo txt com as tabelas foi possivel notar que as tabelas convegiram, isto é, cada nó tem a mesma tabela da topologia, mostrando que as informações foram enviadas com sucesso a todos na rede.
-
+- Will be generated a txt file named ```estatistica.txt```, and in that file will exist all node from graph NSFNET, your table(database)
+with all ways from the topology and the vector from distances to all other nodes, using the algorithm.
