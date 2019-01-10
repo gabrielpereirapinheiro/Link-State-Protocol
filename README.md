@@ -5,7 +5,7 @@
 
 - That code has the object to simulate the operation of the protcol ```LSP``` ([Link State Protocol](https://en.wikipedia.org/wiki/Link-state_routing_protocol)) using the C language, to do that was use the topology from National Science Foundation Network ([NSFNET](https://www.nsf.gov/news/news_summ.jsp?cntn_id=103050)) .
 
-### How execute:
+### How execute :
 
 - Open the terminal inside the main folder and use the command:
 
